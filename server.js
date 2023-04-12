@@ -66,7 +66,22 @@ app.get('/profile/:id', (req,res) => {
         } 
     })
     if (!found){
-        res.status(400).json("no such user");
+        res.status(400).json("not found");
+    }
+})
+
+app.put('/image', (req,res) => {
+    const { id } = req.body;
+    let found = false;
+    database.users.forEach(user => {
+        if (user.id === id) {
+            found = true;
+            user.entries++;
+            return res.json(user.entries);
+        } 
+    })
+    if (!found){
+        res.status(400).json("not found");
     }
 })
 
@@ -76,13 +91,3 @@ app.get('/profile/:id', (req,res) => {
 app.listen(3000, () => {
     console.log('app running on port 3000')
 });
-
-
-
-/* TODO: implement these routes
-/(root) -> res = root working
-/signin  -> POST, respond w/ success/fail
-/register -> POST, respond w/ user
-/profile/:userid -> GET, respond w/ user
-/image -> PUT, respond w/ user or userCount
-*/
