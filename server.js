@@ -2,19 +2,48 @@ const express = require('express');
 const app = express();
 
 
+//dummy database for testing
+const database = {
+    users: [
+        {
+            id: '123',
+            name: 'John',
+            email: 'john@gmail.com',
+            password: "cookies",
+            entries: 0,
+            joined: new Date() 
+        },
+        {
+            id: '124',
+            name: 'Sally',
+            email: 'sally@gmail.com',
+            password: "banana",
+            entries: 0,
+            joined: new Date() 
+        }
+    ]
+}
+
+
+//routes
 app.get('/', (req,res) => {
     res.send('root working')
 })
 
 app.post('/signin', (req,res) => {
+    if(req.body.email === database.users[0].email &&
+        req.body.password === database.users[0].password){
+            res.json('success');
+    }
     res.json("signing in")
 })
 
 
-
+//listening on port 3000
 app.listen(3000, () => {
     console.log('app running on port 3000')
 });
+
 
 
 /* TODO: implement these routes
