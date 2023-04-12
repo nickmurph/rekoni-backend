@@ -17,7 +17,7 @@ const database = {
             id: '124',
             name: 'Sally',
             email: 'sally@gmail.com',
-            password: "banana",
+            password: "bananas",
             entries: 0,
             joined: new Date() 
         }
@@ -30,7 +30,7 @@ app.use(express.json());
 
 //routes
 app.get('/', (req,res) => {
-    res.send('root working')
+    res.send(database.users);
 })
 
 app.post('/signin', (req,res) => {
@@ -40,7 +40,23 @@ app.post('/signin', (req,res) => {
     } else {
         res.status(400).json('error logging in');
     }
+});
+
+app.post('/register', (req,res) => {
+    const {email, name, password} = req.body;
+    const newID = String(Number(database.users[database.users.length-1].id) + 1);
+    database.users.push({
+        id: newID,
+        name: name,
+        email: email,
+        password: password,
+        entries: 0,
+        joined: new Date() 
+    })
+    res.json(database.users[database.users.length-1])
 })
+
+
 
 
 //listening on port 3000
