@@ -1,4 +1,6 @@
 const express = require('express');
+const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 const app = express();
 
 
@@ -26,6 +28,7 @@ const database = {
 
 //middleware
 app.use(express.json());
+app.use(cors());
 
 
 //routes
