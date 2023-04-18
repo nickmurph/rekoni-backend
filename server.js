@@ -2,6 +2,26 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const app = express();
+const knex = require('knex');
+// const pg = require('pg');
+const pgpass = require('./credentials.js');
+
+
+
+const postgres = knex({
+    client: 'pg',
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      port: 3001,
+      password : pgpass, //password stored in .gitignored file credentials.js
+      database : 'rekoni'
+    }
+  });
+
+
+console.log(postgres.select('*').from('users'));
+
 
 
 //dummy database for testing
@@ -25,6 +45,8 @@ const database = {
         }
     ]
 }
+
+
 
 //middleware
 app.use(cors());
