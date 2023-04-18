@@ -4,23 +4,23 @@ const cors = require('cors');
 const app = express();
 const knex = require('knex');
 // const pg = require('pg');
-const pgpass = require('./credentials.js');
+const credentials = require('./credentials.js');
 
 
 
-const postgres = knex({
+const db = knex({
     client: 'pg',
     connection: {
       host : '127.0.0.1',
       user : 'postgres',
-      port: 3001,
-      password : pgpass, //password stored in .gitignored file credentials.js
+      port: 5432,
+      password : credentials.pgpass, //password stored in .gitignored file credentials.js
       database : 'rekoni'
     }
   });
 
 
-console.log(postgres.select('*').from('users'));
+// console.log(db.select('*').from('users'));
 
 
 
@@ -70,45 +70,44 @@ app.post('/signin', (req,res) => {
 
 app.post('/register', (req,res) => {
     const {email, name, password} = req.body;
-    const newID = String(Number(database.users[database.users.length-1].id) + 1);
-    database.users.push({
-        id: newID,
-        name: name,
+    db('users')
+    .returning('*')
+    .insert({
         email: email,
-        // password: password,
-        entries: 0,
-        joined: new Date() 
+        name: name,
+        joined: new Date()
+    }).then(user => {
+        res.json(user[0])
     })
-    res.json(database.users[database.users.length-1])
+    .catch(err => res.status(400).json('unable to register'))
 })
 
 app.get('/profile/:id', (req,res) => {
     const { id } = req.params;
-    let found = false;
-    database.users.forEach(user => {
-        if (user.id === id) {
-            found = true;
-            return res.json(user);
-        } 
+
+    db.select('*').from('users').where({
+        id: id
+    }).then(user => {
+        if (user.length) {
+            res.json(user[0])
+        } else {
+            res.status(400).json('not found')
+        }
     })
-    if (!found){
-        res.status(400).json("not found");
-    }
+    .catch(err=> res.status(400).json('error getting user'))
 })
 
 app.put('/image', (req,res) => {
     const { id } = req.body;
-    let found = false;
-    database.users.forEach(user => {
-        if (user.id === id) {
-            found = true;
-            user.entries++;
-            return res.json(user.entries);
-        } 
+    db('users').where('id','=',id)
+    .increment('entries', 1)
+    .returning('entries')
+    .then(entries => {
+        // console.log(entries);
+        // res.json(entries);
+        res.json(entries[0].entries);
     })
-    if (!found){
-        res.status(400).json("not found");
-    }
+    .catch(err => res.status(400).json('unable  to get entries count'))
 })
 
 
