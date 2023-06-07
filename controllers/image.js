@@ -1,12 +1,20 @@
-const credentials = require('../credentials.js');
+const dotenv = require('dotenv');
 
-//Helper vars for querying the Clarifai REST API, different from the clarifai node package used by ZTM which is now deprecated
-//loaded from an external, .gitignored file for now
+
+
+//initialize dotenv to read local .env
+//access via process.env.VARIABLENAMEHERE
+dotenv.config();
+
+//establish env variables
 const APP_ID = 'rekoni';
-const API_PAT = credentials.clarifaiPAT;
-const USER_ID = credentials.clarifaiUserID;
-const MODEL_ID = credentials.clarifaiModelID;
-const MODEL_VERSION_ID = credentials.clarifaiModelVersion;
+const API_PAT = process.env.CLARIFAI_PAT;
+const USER_ID = process.env.CLARIFAI_USER_ID;
+const MODEL_ID = process.env.CLARIFAI_MODEL_ID;
+const MODEL_VERSION_ID = process.env.CLARIFAI_MODEL_VERSION;
+
+
+
 
 const handleApiCall = (req,res) => {
     const clarifaiCredentials = JSON.stringify({

@@ -7,7 +7,6 @@ const knex = require('knex');
 const dotenv = require('dotenv');
 
 //controllers for API endpoints
-const credentials = require('./credentials.js');
 const register = require('./controllers/register.js')
 const signin = require('./controllers/signin.js')
 const profile = require('./controllers/profile.js')
@@ -19,6 +18,10 @@ const image = require('./controllers/image.js')
 //access via process.env.VARIABLENAMEHERE
 dotenv.config();
 
+//establish env variables
+const PGPASS = process.env.PGPASS
+
+
 
 //connect to postgreSQL DB via Knex
 const db = knex({
@@ -27,7 +30,7 @@ const db = knex({
       host : '127.0.0.1',
       user : 'postgres',
       port: 5432,
-      password : credentials.pgpass, //password stored in .gitignored file credentials.js
+      password : PGPASS,
       database : 'rekoni'
     }
   });
