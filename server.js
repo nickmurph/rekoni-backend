@@ -19,19 +19,22 @@ const image = require('./controllers/image.js')
 dotenv.config();
 
 //establish env variables
-const PGPASS = process.env.PGPASS
-
+const PORT = process.env.PORT;
+const PGPASS = process.env.PGPASS;
+const DB_HOST = process.env.DB_HOST;
+const DB_NAME = process.env.DB_NAME;
+const DB_USER = process.env.DB_USER;
 
 
 //connect to postgreSQL DB via Knex
 const db = knex({
     client: 'pg',
     connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      port: 5432,
+      host : DB_HOST,
+      user : DB_USER,
+      port: PORT,
       password : PGPASS,
-      database : 'rekoni'
+      database : DB_NAME
     }
   });
 
@@ -52,7 +55,6 @@ app.post('/imageURL', (req,res) => {image.handleApiCall(req,res)})
 
 
 //listen on assigned port
-const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`app running on port ${PORT}`)
 });
