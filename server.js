@@ -1,14 +1,23 @@
+//packages
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const app = express();
 const knex = require('knex');
+const dotenv = require('dotenv');
 
+//controllers for API endpoints
 const credentials = require('./credentials.js');
 const register = require('./controllers/register.js')
 const signin = require('./controllers/signin.js')
 const profile = require('./controllers/profile.js')
 const image = require('./controllers/image.js')
+
+
+
+//initialize dotenv to read local .env
+//access via process.env.VARIABLENAMEHERE
+dotenv.config();
 
 
 //connect to postgreSQL DB via Knex
@@ -25,11 +34,9 @@ const db = knex({
 
 
 
-
 //middleware
 app.use(cors());
 app.use(express.json());
-
 
 
 //routes
@@ -42,8 +49,7 @@ app.post('/imageURL', (req,res) => {image.handleApiCall(req,res)})
 
 
 //listen on assigned port
-// const PORT = process.env.PORT
-const PORT = 3000
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`app running on port ${PORT}`)
 });
