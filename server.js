@@ -19,7 +19,6 @@ const image = require('./controllers/image.js')
 dotenv.config();
 
 //establish env variables
-const PORT = process.env.PORT;
 const PGPASS = process.env.PGPASS;
 const DB_URL = process.env.DB_URL;
 const DB_HOST = process.env.DB_HOST;
@@ -58,6 +57,6 @@ app.post('/imageURL', (req,res) => {image.handleApiCall(req,res)})
 
 
 //listen on assigned port
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log(`app running on port ${PORT}`)
 });
