@@ -21,6 +21,7 @@ dotenv.config();
 //establish env variables
 const PORT = process.env.PORT;
 const PGPASS = process.env.PGPASS;
+const DB_URL = process.env.DB_URL;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
 const DB_USER = process.env.DB_USER;
@@ -30,6 +31,7 @@ const DB_USER = process.env.DB_USER;
 const db = knex({
     client: 'pg',
     connection: {
+      connectionString: DB_URL,
       host : DB_HOST,
       user : DB_USER,
       port: PORT,
