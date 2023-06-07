@@ -41,8 +41,9 @@ app.put('/image', (req,res) => {image.handleImage(req,res,db)})
 app.post('/imageURL', (req,res) => {image.handleApiCall(req,res)})
 
 
-//listening on port 3000
-const PORT = process.env.PORT
+//listen on assigned port
+// const PORT = process.env.PORT
+const PORT = 3000
 app.listen(PORT, () => {
     console.log(`app running on port ${PORT}`)
 });
