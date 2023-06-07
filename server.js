@@ -32,9 +32,10 @@ const db = knex({
     client: 'pg',
     connection: {
       connectionString: DB_URL,
+      ssl: { rejectUnauthorized: false },
       host : DB_HOST,
       user : DB_USER,
-      port: PORT,
+      port: 5432,
       password : PGPASS,
       database : DB_NAME
     }
