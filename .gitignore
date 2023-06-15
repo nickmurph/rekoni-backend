@@ -175,3 +175,6 @@ notes.txt
 testing.js
 tempCodeRunnerFile.*
 credentials.js
+/.metals
+/.vscode
+
